@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modern E‑commerce Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0f1724;
+      --card: #0b1220;
+      --accent: #6ee7b7; /* mint */
+      --accent-2: #60a5fa; /* sky */
+      --muted: #98a0b3;
+      --glass: rgba(255,255,255,0.04);
+      --radius: 14px;
+      --max-width: 1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#071024 0%, #0b1020 60%);
+      color:#e6eef8;
+      font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:32px 20px;
+      display:flex;
+      justify-content:center;
+    }
+    .site{
+      width:100%;
+      max-width:var(--max-width);
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      margin-bottom:28px;
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px
+    }
+    .logo{
+      width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:flex;align-items:center;justify-content:center;font-weight:800;color:#04263a;font-size:18px;box-shadow:0 6px 20px rgba(0,0,0,0.6);
+    }
+    .brand h1{font-size:18px;margin:0}
+    nav{display:flex;gap:18px;align-items:center}
+    .nav-link{color:var(--muted);text-decoration:none;font-weight:600}
+    .nav-cta{background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:10px 14px;border-radius:999px;color:#052431;text-decoration:none;font-weight:700}
+
+    /* HERO */
+    .hero{
+      display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-bottom:28px
+    }
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:28px;border-radius:20px;box-shadow:0 10px 30px rgba(2,6,23,0.6)}
+    .eyebrow{color:var(--accent);font-weight:700;letter-spacing:0.8px}
+    .headline{font-size:34px;line-height:1.02;margin:10px 0 14px}
+    .sub{color:var(--muted);margin-bottom:18px}
+    .hero-actions{display:flex;gap:12px}
+    .btn{background:var(--accent);color:#042431;padding:12px 16px;border-radius:12px;font-weight:700;border:none;cursor:pointer}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--accent-2)}
+
+    /* Hero product preview */
+    .preview{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:22px;border-radius:18px;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center
+    }
+    .preview .image{width:100%;height:280px;border-radius:12px;background:linear-gradient(135deg,var(--accent-2),var(--accent));display:flex;align-items:center;justify-content:center;font-size:18px;color:#042431;font-weight:800}
+
+    /* Filters + Grid */
+    .controls{display:flex;gap:12px;align-items:center;margin:20px 0}
+    .search{flex:1;display:flex;gap:8px;align-items:center;background:var(--glass);padding:10px;border-radius:12px}
+    .search input{flex:1;background:transparent;border:0;outline:none;color:inherit}
+    .filter{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:10px}
+
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));padding:14px;border-radius:16px;transition:transform .22s, box-shadow .22s;position:relative;overflow:hidden}
+    .card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(2,6,23,0.6)}
+    .product-image{height:160px;border-radius:10px;background:#071330;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--muted);margin-bottom:12px}
+    .product-title{font-weight:700;margin-bottom:6px}
+    .price-row{display:flex;align-items:center;justify-content:space-between}
+    .price{font-weight:800}
+    .tag{background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:10px;font-size:12px;color:var(--muted)}
+    .add{margin-top:10px;display:flex;gap:8px}
+    .small{font-size:13px;color:var(--muted)}
+
+    /* badge */
+    .badge{position:absolute;top:12px;left:12px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#042431;padding:6px 9px;border-radius:8px;font-weight:800;font-size:12px}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      :root{--max-width:920px}
+    }
+    @media (max-width:620px){
+      body{padding:18px}
+      .grid{grid-template-columns:1fr}
+      header{flex-direction:column;align-items:flex-start;gap:12px}
+      .hero{gap:12px}
+    }
+
+    /* Quick view modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);z-index:80}
+    .modal.open{display:flex}
+    .modal-card{background:linear-gradient(180deg,#071226,#071226);padding:22px;border-radius:16px;width:min(900px,95%);display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .close{position:absolute;right:18px;top:18px;background:transparent;border:0;color:var(--muted);font-weight:800}
+    .modal-card .image{height:320px;border-radius:12px;background:linear-gradient(135deg,var(--accent-2),var(--accent));display:flex;align-items:center;justify-content:center;font-weight:800;color:#042431}
+    .meta h3{margin:0 0 8px}
+    .meta p{color:var(--muted);margin-bottom:12px}
+  </style>
+</head>
+<body>
+  <div class="site">
+    <header>
+      <div class="brand">
+        <div class="logo">MK</div>
+        <div>
+          <h1>MintKart</h1>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">Curated goods • Fast shipping</div>
+        </div>
+      </div>
+
+      <nav>
+        <a class="nav-link" href="#">Home</a>
+        <a class="nav-link" href="#">Collections</a>
+        <a class="nav-link" href="#">About</a>
+        <a class="nav-cta" href="#">Shop Now</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-card">
+        <div class="eyebrow">NEW ARRIVAL</div>
+        <div class="headline">Beautifully crafted everyday essentials</div>
+        <div class="sub">Minimal design. Thoughtful materials. Free returns within 30 days. Explore our latest collection of home & lifestyle goods.</div>
+        <div class="hero-actions">
+          <button class="btn">Shop the Collection</button>
+          <button class="btn ghost">Learn More</button>
+        </div>
+
+        <div style="margin-top:18px">
+          <strong>Why customers love us</strong>
+          <div style="display:flex;gap:10px;margin-top:8px">
+            <div class="tag">Ethically Sourced</div>
+            <div class="tag">Free Shipping</div>
+            <div class="tag">30‑day Returns</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview">
+        <div style="font-weight:700;color:var(--muted);font-size:14px">Featured</div>
+        <div class="image">Wooden Speaker — $99</div>
+        <div class="small">Limited stock — handcrafted walnut & brass details</div>
+      </div>
+    </section>
+
+    <div class="controls">
+      <div class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden style="opacity:.7"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <input id="q" placeholder="Search products, e.g. "wooden speaker"" />
+        <div style="font-size:13px;color:var(--muted)">| 124 items</div>
+      </div>
+      <select class="filter" id="sort">
+        <option value="popular">Sort: Popular</option>
+        <option value="new">Newest</option>
+        <option value="price-asc">Price: Low → High</option>
+        <option value="price-desc">Price: High → Low</option>
+      </select>
+    </div>
+
+    <main class="grid" id="products">
+      <!-- product cards generated by JS -->
+    </main>
+
+    <!-- modal quick view -->
+    <div id="modal" class="modal" aria-hidden>
+      <div class="modal-card">
+        <button class="close" id="closeModal">✕</button>
+        <div class="image" id="modalImage">Image</div>
+        <div class="meta">
+          <h3 id="modalTitle">Product Title</h3>
+          <div style="font-weight:800;font-size:20px" id="modalPrice">$0</div>
+          <p id="modalDesc">Product description goes here — materials, dimensions, care instructions and why it’s special.</p>
+          <div style="display:flex;gap:10px">
+            <button class="btn">Add to cart</button>
+            <button class="btn ghost">Wishlist</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const products = [
+      {id:1,title:'Walnut Bluetooth Speaker',price:99,tag:'Bestseller',desc:'Handcrafted walnut, 10h battery, rich sound.'},
+      {id:2,title:'Ceramic Mug — Cloud',price:18,tag:'Popular',desc:'Wheel-thrown ceramic mug, 340ml.'},
+      {id:3,title:'Linen Throw Pillow',price:45,tag:'New',desc:'Soft linen cover, feather insert included.'},
+      {id:4,title:'Minimal Desk Lamp',price:79,tag:'Top Rated',desc:'LED lamp with warm dimmer.'},
+      {id:5,title:'Organic Cotton Tee',price:29,tag:'Eco',desc:'Pre-shrunk, medium weight cotton.'},
+      {id:6,title:'Brass Bottle Opener',price:15,tag:'Gift',desc:'Solid brass, lifetime warranty.'}
+    ];
+
+    const grid = document.getElementById('products');
+
+    function renderProducts(list){
+      grid.innerHTML = '';
+      list.forEach(p=>{
+        const el = document.createElement('article');
+        el.className = 'card';
+        el.innerHTML = `
+          <div class="badge">${p.tag}</div>
+          <div class="product-image">${p.title.split(' ')[0]}</div>
+          <div class="product-title">${p.title}</div>
+          <div class="small">${p.desc}</div>
+          <div class="price-row">
+            <div class="price">$${p.price}</div>
+            <div class="tag">Free ship</div>
+          </div>
+          <div class="add">
+            <button class="btn" data-id="${p.id}">Add</button>
+            <button class="btn ghost" data-quick="${p.id}">Quick view</button>
+          </div>
+        `;
+        grid.appendChild(el);
+      });
+    }
+
+    renderProducts(products);
+
+    // Quick view handlers
+    const modal = document.getElementById('modal');
+    const modalImage = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalDesc = document.getElementById('modalDesc');
+    document.addEventListener('click',(e)=>{
+      const q = e.target.closest('[data-quick]');
+      if(q){
+        const id = +q.dataset.quick;
+        const p = products.find(x=>x.id===id);
+        modalImage.textContent = p.title.split(' ').slice(0,2).join(' ');
+        modalTitle.textContent = p.title;
+        modalPrice.textContent = '$' + p.price;
+        modalDesc.textContent = p.desc;
+        modal.classList.add('open');
+      }
+      const close = e.target.closest('#closeModal');
+      if(close) modal.classList.remove('open');
+      if(e.target === modal) modal.classList.remove('open');
+    });
+
+    // Simple search
+    document.getElementById('q').addEventListener('input', (ev)=>{
+      const q = ev.target.value.toLowerCase().trim();
+      const filtered = products.filter(p=> p.title.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q));
+      renderProducts(filtered.length ? filtered : products);
+    });
+
+    // Sort
+    document.getElementById('sort').addEventListener('change',(ev)=>{
+      const v = ev.target.value;
+      let sorted = [...products];
+      if(v === 'price-asc') sorted.sort((a,b)=>a.price-b.price);
+      if(v === 'price-desc') sorted.sort((a,b)=>b.price-a.price);
+      if(v === 'new') sorted = products.slice().reverse();
+      renderProducts(sorted);
+    });
+  </script>
+</body>
+</html>
